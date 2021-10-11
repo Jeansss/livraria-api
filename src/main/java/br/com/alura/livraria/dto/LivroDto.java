@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 public class LivroDto {
 	
+	private Long id;
 	private String titulo;
 	private LocalDate dataDeLancamento;
 	private int paginas;

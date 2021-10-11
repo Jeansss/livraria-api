@@ -7,11 +7,16 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.alura.livraria.dto.LivroDto;
 import br.com.alura.livraria.dto.LivroFormDto;
 import br.com.alura.livraria.modelo.Livro;
+import br.com.alura.livraria.repository.LivroRepository;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,19 +26,24 @@ import lombok.Setter;
 @Service
 public class LivroService {
 	
-	private List<Livro> livros = new ArrayList<>();
+	@Autowired
+	private LivroRepository livroRepository;
 	private ModelMapper modelMapper = new ModelMapper();
 	
-	public List<LivroDto> listar() {
+	public Page<LivroDto> listar(Pageable paginacao) {
+		Page<Livro> livros = livroRepository.findAll(paginacao);
+		
 		return livros
-			.stream()
-			.map(t -> modelMapper.map(t, LivroDto.class))
-			.collect(Collectors.toList());
+			.map(t -> modelMapper.map(t, LivroDto.class));
 	}
 	
-	public void cadastrar(@Valid LivroFormDto dto) {
+	@Transactional
+	public LivroDto cadastrar(@Valid LivroFormDto dto) {
 		Livro livro = modelMapper.map(dto, Livro.class);
-		livros.add(livro);
+		livro.setId(null);
+		livroRepository.save(livro);
+		
+		return modelMapper.map(livro, LivroDto.class);
 	}
 	
 
