@@ -10,11 +10,15 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "livros")
 public class Livro {
@@ -28,7 +32,7 @@ public class Livro {
 	@Column(name = "data")
 	private LocalDate dataDeLancamento;
 
-	private int paginas;
+	private Integer paginas;
 
 	@ManyToOne
 	private Autor autor;

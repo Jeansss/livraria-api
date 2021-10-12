@@ -39,6 +39,8 @@ public class LivroService {
 	
 	@Transactional
 	public LivroDto cadastrar(@Valid LivroFormDto dto) {
+//		modelMapper.getConfiguration().addValueReader(new JsonElementValueReader());
+		
 		Livro livro = modelMapper.map(dto, Livro.class);
 		livro.setId(null);
 		livroRepository.save(livro);
