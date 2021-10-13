@@ -24,23 +24,22 @@ import lombok.Setter;
 @Setter
 @Service
 public class AutorService {
-	
+
 	@Autowired
 	private AutorRepository autorRepository;
 	private ModelMapper modelMapper = new ModelMapper();
-	
+
 	public Page<AutorDto> listar(Pageable paginacao) {
 		Page<Autor> autores = autorRepository.findAll(paginacao);
-		return autores
-				.map(t -> modelMapper.map(t, AutorDto.class));
+		return autores.map(t -> modelMapper.map(t, AutorDto.class));
 	}
-	
+
 	@Transactional
 	public AutorDto cadastrar(@Valid AutorFormDto dto) {
 		Autor autor = modelMapper.map(dto, Autor.class);
 		autor.setId(null);
 		autorRepository.save(autor);
-		
+
 		return modelMapper.map(autor, AutorDto.class);
 	}
 

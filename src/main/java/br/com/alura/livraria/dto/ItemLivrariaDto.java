@@ -5,17 +5,18 @@ import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ItemLivrariaDto {
 	
-	private String nome;
+	private String autor;
 	private Long quantidade;
-//	private String livro;
-//	private LocalDate dataLancamento;
-//	private Double percentual;
+	private Double percentual;
+
 
 
 

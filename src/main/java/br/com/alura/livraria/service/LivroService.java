@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,33 +22,28 @@ import br.com.alura.livraria.repository.LivroRepository;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 @Service
 public class LivroService {
-	
+
 	@Autowired
 	private LivroRepository livroRepository;
 	private ModelMapper modelMapper = new ModelMapper();
-	
+
 	public Page<LivroDto> listar(Pageable paginacao) {
 		Page<Livro> livros = livroRepository.findAll(paginacao);
-		
-		return livros
-			.map(t -> modelMapper.map(t, LivroDto.class));
+
+		return livros.map(t -> modelMapper.map(t, LivroDto.class));
 	}
-	
+
 	@Transactional
 	public LivroDto cadastrar(@Valid LivroFormDto dto) {
-//		modelMapper.getConfiguration().addValueReader(new JsonElementValueReader());
-		
 		Livro livro = modelMapper.map(dto, Livro.class);
 		livro.setId(null);
 		livroRepository.save(livro);
-		
+
 		return modelMapper.map(livro, LivroDto.class);
 	}
-	
 
 }
